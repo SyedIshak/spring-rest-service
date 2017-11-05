@@ -47,18 +47,19 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.findAll();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.imaginea.service.ProductService#dropNullProducts()
 	 */
 	@Override
-	public void dropNullProducts() throws ImagineaRestException{
+	public void dropNullProducts() throws ImagineaRestException {
 		System.out.println("Deleting any new null productID . . .");
+		
 		try (MongoClient client = new MongoClient("localhost", 27017)) {
 			MongoDatabase db = client.getDatabase("test");
-			MongoCollection<Document> collection = db.getCollection("product");
+			MongoCollection<Document> collection = db.getCollection("prodId");
 			collection.deleteMany(new Document("prodId", null));
-		}catch(ImagineaRestException e) {
-			throw new ImagineaRestException("Unable to connect to database");
 		}
 	}
 

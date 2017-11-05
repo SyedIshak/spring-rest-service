@@ -44,7 +44,7 @@ public class CustomerController {
 	 *            the customer
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/addCustomerToProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/addCustomer", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addCustomerToProduct(@RequestBody Customer customer) {
 		try {
 			Verifier.verifyNull(customer, "customer object cannot be Null");
@@ -63,7 +63,7 @@ public class CustomerController {
 	 *
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/retrieveAllCustomers", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/listCustomers", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> retrieveAllCustomers() {
 		try {
 			List<Customer> customers = customerService.retrieveAllCustomers();
@@ -81,7 +81,7 @@ public class CustomerController {
 	 *            the product
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/addNewProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/addProduct", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> addNewProduct(@RequestBody Product product) {
 		Response response = new Response();
 		try {
@@ -100,9 +100,10 @@ public class CustomerController {
 	 *
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/listAllProducts", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/listProducts", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listAllProducts() {
 		try {
+			productService.dropNullProducts();
 			List<Product> products = productService.listAllAvailableProducts();
 			Verifier.verifyEmptyCollection(products, "No products available in database");
 			return new ResponseEntity<>(products, HttpStatus.OK);
